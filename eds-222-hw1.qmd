@@ -59,8 +59,6 @@ There's an implicit assumption about file organization in the code above. What i
 Student answer: It is assumed that our relevant data is in the "data" folder. We can also make this work using the "here" package - which creates a path relative to the top-level directory.
 :::
 
-##### Q and A
-
 1. These dataframes have one row per pollution observation. How many pollution records are in each dataset?
 
 ```{r}

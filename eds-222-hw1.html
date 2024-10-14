@@ -216,8 +216,6 @@ Warning
 <p>Student answer: It is assumed that our relevant data is in the “data” folder. We can also make this work using the “here” package - which creates a path relative to the top-level directory.</p>
 </div>
 </div>
-<section id="q-and-a" class="level5">
-<h5 class="anchored" data-anchor-id="q-and-a">Q and A</h5>
 <ol type="1">
 <li>These dataframes have one row per pollution observation. How many pollution records are in each dataset?</li>
 </ol>
@@ -320,12 +318,11 @@ Tip
 </details>
 </div>
 </section>
-</section>
 <section id="question-2" class="level3">
 <h3 class="anchored" data-anchor-id="question-2">Question 2</h3>
 <p>The goal of pollution monitoring in Lahore is to measure the average pollution conditions across the city.</p>
-<section id="q-and-a-1" class="level5">
-<h5 class="anchored" data-anchor-id="q-and-a-1">Q and A</h5>
+<section id="q-and-a" class="level5">
+<h5 class="anchored" data-anchor-id="q-and-a">Q and A</h5>
 <ol type="1">
 <li>What is the <em>population</em> in this setting? Please be precise.</li>
 </ol>
@@ -483,7 +480,7 @@ Tip
 <div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(<span class="fu">paste</span>(<span class="st">"The sample mean of this pooled and randomly selected data-set is"</span>, <span class="fu">mean</span>(combined_random_samples<span class="sc">$</span>PM)))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] "The sample mean of this pooled and randomly selected data-set is 63.088"</code></pre>
+<pre><code>[1] "The sample mean of this pooled and randomly selected data-set is 63.871"</code></pre>
 </div>
 </div>
 <p>Second, create a <em>stratified random sample</em>. Do so by (i) stratifying your pooled data-set into strata of 0.01 degrees of latitude, and (ii) randomly sampling 200 air pollution observations from each stratum.</p>
@@ -505,7 +502,7 @@ Tip
 <div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(<span class="fu">paste</span>(<span class="st">"The sample mean of this pooled, stratified, and randomly selected data-set is"</span>, <span class="fu">mean</span>(stratified_samples<span class="sc">$</span>PM)))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] "The sample mean of this pooled, stratified, and randomly selected data-set is 65.545"</code></pre>
+<pre><code>[1] "The sample mean of this pooled, stratified, and randomly selected data-set is 64.5391666666667"</code></pre>
 </div>
 </div>
 </section>
