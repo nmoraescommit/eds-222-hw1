@@ -63,7 +63,6 @@ Student answer: It is assumed that our relevant data is in the "data" folder. We
 
 ```{r}
 dim(crowdsourced)
-
 dim(govt)
 ```
 
@@ -123,18 +122,19 @@ The goal of pollution monitoring in Lahore is to measure the average pollution c
 
 1.  What is the *population* in this setting? Please be precise.
 
-- The population in this setting, is the air-quality across Lahore, Pakistan.
+- The population in this setting, is the air-quality across every (longitude, latitude) point Lahore, Pakistan across the time period of  November 2018 to November 2019.
 
 2.  What are the *samples* in this setting? Please be precise.
 
-- The samples are the 1) air quality monitor data volunteered by some households in Lahore, Pakistan; as well as 2) official air quality government data from monitors installed by government officials at selected locations across Lahore.
+- The samples are the 1) air quality monitor data volunteered by some households in Lahore, Pakistan; as well as 2) official air quality government data from monitors installed by government officials at selected locations across Lahore. Both samples represent daily observations from November 4, 2018, to November 30, 2019.
 
 3.  These samples were not randomly collected from across locations in Lahore. Given the sampling approaches described above, discuss possible biases that may enter when we use these samples to construct estimates of population parameters.
   
   + 3a. In the crowdsourced data, biases present may include the:
 
     - Hawthorne Effect, as the participants may act differently as they know their air-quality data will be reported;
-    - Non-response Bias, as there may be a difference in the output of air-quality data between those who volunteer to publish their data and those who don't
+    - Non-response Bias, as there may be a difference in the output of air-quality data between those who volunteer to publish their data and those who don't.
+    - financially/educationally literate to operatate monitor and upload data to server
 
   + 3b. In the government data, biases present may include the:
 
@@ -165,11 +165,12 @@ print(paste("The sample mean, sample minimum, and sample maximum of PM 2.5 (μ g
 
 2.  Discuss any key differences that you see between these two samples.
 
-    - Key differences between the statistics for the two samples are that for the crowdsourced data the sample mean, sample minimum, and sample maximum are quite a bit larger. 
+    - Key differences between the statistics for the two samples are that for the crowdsourced data the sample mean, sample minimum, and sample maximum are quite a bit larger.  (~50% of the crowd sourved lower mean and lower min/max)
 
 3.  Are the differences in mean pollution as expected, given what we know about the sampling strategies?
 
     - Considering what we know about the two sampling strategies, the aforementioned outcome is not unexpected - as it seems that the statistics from the government data shows an increased likelihood that the government is obfuscating the true air-quality data, through few, geographically selective monitors.
+    - There most likely will be bias in the crowd-sourced data as well. This may be due to the implicit selection for households with higher technological proficiency to be the ones taking the data, as it is required to operate and upload air-quality statistical data, as well as citizen science attitudes, as those who are well-motivated to support the government in this venture - to be a factor of bias in the crowdsourced data.
 
 ### Question 4
 
@@ -180,6 +181,9 @@ Use the location of the air pollution stations for both of the sampling strategi
 :::
 
 ```{r}
+
+# Combine data set here - so you can have legend by color
+
 pollution_map <- ggplot(NULL, aes(x = longitude, y = latitude)) +
   geom_point(data = govt,
              color = "red") +
@@ -212,13 +216,21 @@ First, generate a *random sample* of size $n=1000$ air pollution records by (i) 
 `bind_rows()` may be helpful.
 :::
 ```{r}
-# Create stacked dataframe of crowdsourced and govt dfs
+# Create stacked dataframe of crowdsourced and govt dfs 
 
 combined_dataframe <- rbind(crowdsourced, govt)
+
+dim(combined_dataframe)
+
+print("The dimensions of the data frame are:7448 rows and 5 columns.")
 
 # Pull 1000 random observations from pooled sample
 
 combined_random_samples <- combined_dataframe[sample(nrow(combined_dataframe), size = 1000, replace = FALSE),]
+
+dim(combined_random_samples)
+    
+print("The dimensions of the sample are : 1000 rows and 5 columns.")
 ```
 
 ```{r}
@@ -236,6 +248,10 @@ stratified_samples <- combined_dataframe %>%
                       mutate(strat_lat = trunc(latitude*10^2)/10^2) %>%
                       group_by(strat_lat) %>%
                       sample_n(size=200, replace = FALSE)
+
+dim(stratified_samples)
+
+print("The dimensions of the sample are: 1200 rows and 6 columns.")
 ```
 
 ```{r}
@@ -248,6 +264,10 @@ print(paste("The sample mean of this pooled, stratified, and randomly selected d
 
 Compare estimated means of PM 2.5 for each sampling strategy to the NASA estimate of 89.2 $\mu g/m^3$. Which sample seems to match the satellite data best? What would you recommend the Prime Minister do? Does your proposed sampling strategy rely more on government or on crowd-sourced data? Why might that be the case?
 
-The sample that seems to match the NASA satellite data best is the crowdsourced data as the difference between the estimated means of PM 2.5 - between this and the NASA data set - is the smallest when compared to the differences between the estimated means of the NASA data and government data; pooled, stacked and randomly selected data; or the pooled, stratified, and randomly selected data.
+The sample that seems to match the NASA satellite data best is the stratified sampling approach as the difference between the estimated means of PM 2.5 - between this and the NASA data set - is smaller then when compared to the differences between the estimated means of the NASA data and the pooled and randomly selected data (the former method).
 
-If the government monitors can not be moved, I would recommend that the Prime Minister use a stratified and randomly selected data sampling strategy with the crowdsourced data. If the government monitors can be moved, I recommend that they are moved so that they gather data from not-clustered points, and then use a pooled, stratified, and randomly selected data sampling strategy. (This is because it would be good to have non-self reported/ volunteered data - due to the bias impacts described previously. However, not at the cost of accuracy.) 
+I would recommend that the Prime Minister continue to use a stratified sampling strategy with the crowdsourced data. If the government monitors can be moved, I recommend that the government monitors are moved so that they gather data from not-clustered points, and then use the stratified data sampling strategy. (This is because it would be good to have non-self reported/ volunteered data - due to the bias impacts described previously. However, not at the cost of accuracy.) 
+
+I also recommend that the Prime Minister increase the number of monitors given to households, to self-report household air quality, across Lahore. These household monitors should be similarly widely and randomly distributed geographically and across houehold demographics - to gather a less biased dataset.
+
+The sampling method I recommended more heavily relies on the crowd sourced dataset, as they will provide more data points and thus are more likely to be selected during sampling - especially so if stratifying by latitude. (As the government monitors are closer together, they will not be represented in most stratum.)
